@@ -1,0 +1,19 @@
+# Local credentials and dependencies
+.env
+.env.*
+*.env
+node_modules/
+
+# Local build outputs and caches
+website-src/dist/
+*.tsbuildinfo
+.vite/
+coverage/
+
+# Logs and editor files
+*.log
+.DS_Store
+.idea/
+.vscode/
+*.tmp
+*.bak

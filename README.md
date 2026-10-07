@@ -2,7 +2,7 @@
 
 ## 当前 GitHub Pages 发布方式
 
-当前网站绑定域名为 `www.learnity.net.cn`，发布源为 `main` 分支的仓库根目录。仓库当前保存预构建文件，完整前端源码尚未入库；不要直接从这个不完整源码仓库运行构建。
+当前网站绑定域名为 `www.learnity.net.cn`，发布源为 `main` 分支的仓库根目录。完整 React / Vite 前端源码现位于 `website-src/`。根目录仍保存当前线上预构建文件；本轮优化在独立分支中准备，尚未发布。
 
 - 根目录 `index.html` 必须使用构建后的首页，不能引用 `/src/main.tsx`。
 - JS 和 CSS 必须保留在 `assets/` 子目录；首页使用相对资源路径。
@@ -12,42 +12,50 @@
 
 以下为本地构建与其他平台部署说明。
 
+## 源码与第一轮优化
+
+- `website-src/src/`：页面和组件源码。
+- `website-src/tests/`：咨询邮件草稿测试。
+- `website-src/public/`：自定义域名和静态托管配置。
+- `website-src/dist/static/`：本地生成的发布文件，已被 Git 忽略。
+- 当前源码里程碑：`0.1.0`，修复导航与咨询入口；电话、邮箱沿用现有网站。
+- 咨询方案为邮件草稿：页面不会自动发送表单，访客必须在邮件应用中发送，或复制后自行发送。
+- 原始本地源码目录和当前线上产物均已保留。
+
 ## 本地部署步骤
 
 ### 1. 构建项目
-首先确保您的电脑已安装Node.js和pnpm。然后在项目根目录运行：
+首先确保电脑已安装 Node.js（22.18 或以上）和 pnpm。然后在仓库根目录运行：
 
 ```bash
-pnpm install
-pnpm build
+pnpm --dir website-src install --frozen-lockfile
+pnpm --dir website-src test
+pnpm --dir website-src build
 ```
 
-构建完成后，会生成`dist`文件夹，包含所有静态资源。
+构建完成后，`website-src/dist/static/` 包含静态资源。
 
-### 2. 本地测试
-安装本地服务器（如未安装）：
+### 2. 本地预览
 
 ```bash
-pnpm install -g serve
+pnpm --dir website-src preview
 ```
 
-运行本地服务器：
+在浏览器访问 `http://127.0.0.1:3000/`。开发时可运行 `pnpm --dir website-src dev`。
 
-```bash
-serve -s dist/static
-```
+### 3. 发布方式
 
-在浏览器中访问 `http://localhost:3000` 即可查看网站。
+当前 GitHub Pages 发布源仍是 `main` 分支根目录。先检查本地预览，再将经确认的 `website-src/dist/static/` 内容更新到根目录并提交；不要仅提交源码后就认为网站已经更新。保留现有 Git 历史、`CNAME` 和 `.nojekyll`，不使用 force push。
 
 ## 生产环境部署选项
 
 ### 选项1: 使用静态托管服务
-- **Netlify**: 将代码推送到GitHub仓库，在Netlify中连接仓库并设置构建命令为`pnpm build`，发布目录为`dist/static`
+- **Netlify**: 将代码推送到GitHub仓库，在Netlify中连接仓库并设置项目目录设为 `website-src`，构建命令为 `pnpm build`，发布目录为 `dist/static`
 - **Vercel**: 类似Netlify，连接GitHub仓库后配置构建设置
-- **GitHub Pages**: 需要额外配置部署工作流，将`dist/static`目录部署到gh-pages分支
+- **GitHub Pages**: 当前使用 `main` 分支根目录发布；未来可另行配置构建工作流。
 
 ### 选项2: 部署到自己的服务器
-1. 将`dist/static`目录中的所有文件上传到服务器的网站根目录
+1. 将 `website-src/dist/static` 目录中的所有文件上传到服务器的网站根目录
 2. 确保服务器已安装Nginx或Apache等Web服务器
 3. 配置Web服务器指向您上传的静态文件目录
 
