@@ -1,4 +1,4 @@
-export const consultationEmail = 'wangjiano@cbrlzy.com';
+export const consultationEmail = 'wangjian@cbrlzy.com';
 
 export const serviceOptions = [
   { value: 'talent-strategy', label: '人才战略规划' },
