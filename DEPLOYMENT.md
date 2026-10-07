@@ -1,6 +1,17 @@
 # 长伴咨询网站部署指南
 
-## 🚀 快速部署到 www.sxcbhr.com
+## 当前生产部署：GitHub Pages
+
+- Pages Source：Deploy from a branch，`main`，`/(root)`。
+- 发布文件：仓库根目录的构建后 `index.html` 及 `assets/`。
+- 自定义域名：`www.learnity.net.cn`。
+- DNS：主机记录 `www`，类型 `CNAME`，目标 `sxxcwj.github.io`（不含仓库名或 URL 协议）。
+- DNS 检查通过、HTTPS 证书就绪后，在 Pages 设置中启用 Enforce HTTPS。
+- 请保留 `CNAME`；更新构建文件时保持资源目录结构。
+
+下列 Netlify/Vercel 步骤是其他部署平台的备选说明，不是当前 Pages 的发布流程。
+
+## 🚀 快速部署到 www.learnity.net.cn
 
 ### 方法一：Netlify 部署（推荐）
 
@@ -19,7 +30,7 @@
 #### 步骤3：绑定域名
 1. 部署完成后，进入 Site settings → Domain management
 2. 点击 "Add custom domain"
-3. 输入：`www.sxcbhr.com`
+3. 输入：`www.learnity.net.cn`
 4. 按照提示配置DNS
 
 ### 方法二：Vercel 部署
@@ -42,7 +53,7 @@
 当前本地预览：http://localhost:3000
 
 ### 部署后访问
-生产环境：https://www.sxcbhr.com
+生产环境：https://www.learnity.net.cn
 
 ---
 
