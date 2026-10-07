@@ -6,7 +6,7 @@
 
 1. 打开 <https://formspree.io/register>，自行设置账号密码、阅读并确认条款；已有账号可直接登录。
 2. 完成 Formspree 发送的账号验证邮件。
-3. 在 Dashboard 创建表单，名称可用“长伴咨询网站咨询”，通知收件邮箱设置为 `wangjiano@cbrlzy.com`。如果要求验证该邮箱，先在邮箱内完成验证。
+3. 在 Dashboard 创建表单，名称可用“长伴咨询网站咨询”，通知收件邮箱设置为 `wangjian@cbrlzy.com`。如果要求验证该邮箱，先在邮箱内完成验证。
 4. 在表单 Integration 页面复制 Form Endpoint，格式为 `https://formspree.io/f/表单ID`。只需提供这个公开地址，不需要密码、管理 API Key 或 GitHub Token。
 5. 检查表单已激活、通知接收人正确、当前套餐额度可用。使用现有免费范围，任何付费升级均需用户另行决定。
 
