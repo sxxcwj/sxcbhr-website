@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import Icon from '@/components/ui/Icon';
 import { useState } from 'react';
 import { createConsultationDraft, consultationEmail, serviceOptions, type ConsultationInput } from '@/lib/consultation';
 
@@ -51,11 +51,7 @@ const Contact = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="bg-white p-8 rounded-xl shadow-md"
+          <div className="bg-white p-8 rounded-xl shadow-md"
           >
             <h3 className="text-2xl font-semibold text-gray-900 mb-3">准备咨询邮件</h3>
             <p id="consultation-help" className="text-sm text-gray-600 mb-6 leading-relaxed">
@@ -114,14 +110,10 @@ const Contact = () => {
                 {copyNotice && <p role="status" className="text-sm text-blue-900 mt-3">{copyNotice}</p>}
               </div>
             )}
-          </motion.div>
+          </div>
 
           {/* Contact Information */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex flex-col"
+          <div className="flex flex-col"
           >
             <div>
               <h3 className="text-2xl font-semibold text-gray-900 mb-6">联系方式</h3>
@@ -129,7 +121,7 @@ const Contact = () => {
               <div className="space-y-6">
                 <div className="flex items-start">
                   <div className="bg-blue-50 p-3 rounded-full mr-4">
-                    <i className="fa-solid fa-map-marker-alt text-blue-700"></i>
+                    <Icon name="pin" className="h-5 w-5 text-blue-700" />
                   </div>
                   <div>
                     <h4 className="text-lg font-medium text-gray-900 mb-1">办公地址</h4>
@@ -139,7 +131,7 @@ const Contact = () => {
 
                 <div className="flex items-start">
                   <div className="bg-blue-50 p-3 rounded-full mr-4">
-                    <i className="fa-solid fa-phone text-blue-700"></i>
+                    <Icon name="phone" className="h-5 w-5 text-blue-700" />
                   </div>
                   <div>
                     <h4 className="text-lg font-medium text-gray-900 mb-1">电话咨询</h4>
@@ -149,7 +141,7 @@ const Contact = () => {
 
                 <div className="flex items-start">
                   <div className="bg-blue-50 p-3 rounded-full mr-4">
-                    <i className="fa-solid fa-envelope text-blue-700"></i>
+                    <Icon name="mail" className="h-5 w-5 text-blue-700" />
                   </div>
                   <div>
                     <h4 className="text-lg font-medium text-gray-900 mb-1">电子邮箱</h4>
@@ -159,7 +151,7 @@ const Contact = () => {
 
                 <div className="flex items-start">
                   <div className="bg-blue-50 p-3 rounded-full mr-4">
-                    <i className="fa-solid fa-clock text-blue-700"></i>
+                    <Icon name="clock" className="h-5 w-5 text-blue-700" />
                   </div>
                   <div>
                     <h4 className="text-lg font-medium text-gray-900 mb-1">工作时间</h4>
@@ -177,7 +169,7 @@ const Contact = () => {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

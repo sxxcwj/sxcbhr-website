@@ -13,12 +13,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-section[id] {
+section[id], article[id], #partners, #main-content {
   scroll-margin-top: 5.5rem;
 }
 
 a:focus-visible,
-button:focus-visible {
+button:focus-visible,
+summary:focus-visible {
   outline: 3px solid #2563eb;
   outline-offset: 4px;
 }
@@ -26,5 +27,37 @@ button:focus-visible {
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
+  }
+}
+
+.skip-link {
+  position: fixed;
+  top: -5rem;
+  left: 1rem;
+  z-index: 100;
+  padding: .75rem 1rem;
+  border-radius: .375rem;
+  background: #1e3a8a;
+  color: white;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+.guide-details[open] summary,
+.faq-item[open] summary {
+  color: #1e3a8a;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-enter {
+    animation: hero-rise .45s ease-out;
+  }
+}
+@keyframes hero-rise {
+  from { transform: translateY(12px); }
+  to { transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0s !important;
   }
 }

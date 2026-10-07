@@ -1,3 +1,5 @@
+import logo from '@/assets/logo-light.webp';
+import Icon from '@/components/ui/Icon';
 import { useState, useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -5,7 +7,7 @@ const navigation = [
   { href: '#services', label: '服务' },
   { href: '#about', label: '关于我们' },
   { href: '#team', label: '团队' },
-  { href: '#insights', label: '洞察' },
+  { href: '#insights', label: '咨询指南' },
   { href: '#contact', label: '联系我们' },
 ];
 
@@ -43,7 +45,9 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           <a href="#top" onClick={closeMenu} aria-label="长伴咨询首页" className="flex items-center">
             <img
-              src="https://lf-code-agent.coze.cn/obj/x-ai-cn/250001877250/attachment/1e4092de27b7aabc5462612266e73ce_副本_20250723115400.png"
+              src={logo}
+              width={600}
+              height={169}
               alt="长伴咨询 - Accompany Consultation"
               className="h-10 w-auto"
             />
@@ -63,7 +67,7 @@ const Navbar = () => {
             onClick={() => setIsMobileMenuOpen(open => !open)}
             className="md:hidden text-gray-700 hover:text-blue-900 p-3 -mr-3"
           >
-            <i aria-hidden="true" className={`fa-solid ${isMobileMenuOpen ? 'fa-xmark' : 'fa-bars'} text-xl`}></i>
+            <Icon name={isMobileMenuOpen ? 'close' : 'menu'} className="h-6 w-6" />
           </button>
         </div>
       </div>

@@ -6,6 +6,7 @@ import Team from '@/components/Team';
 import Insights from '@/components/Insights';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import FAQ from '@/components/FAQ';
 import { useEffect } from 'react';
 
 export default function Home() {
@@ -23,14 +24,18 @@ export default function Home() {
   }, []);
 
   return (
-     <div className="min-h-screen bg-blue-50 text-gray-900 font-sans">
+    <div className="min-h-screen bg-blue-50 text-gray-900 font-sans">
+      <a href="#main-content" className="skip-link">跳至主要内容</a>
       <Navbar />
-      <Hero />
-      <Services />
-      <About />
-      <Team />
-      <Insights />
-      <Contact />
+      <main id="main-content">
+        <Hero />
+        <Services />
+        <About />
+        <Team />
+        <Insights />
+        <FAQ />
+        <Contact />
+      </main>
       <Footer />
     </div>
   );
