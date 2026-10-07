@@ -1,7 +1,7 @@
 {
   "name": "changban-consulting-website",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.3.0-pre.1",
   "type": "module",
   "scripts": {
     "dev:client": "vite --host 127.0.0.1 --port 3000",

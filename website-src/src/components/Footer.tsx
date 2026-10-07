@@ -1,5 +1,6 @@
 import logo from '@/assets/logo-dark.webp';
 import { consultationEmail } from '@/lib/consultation';
+import { automaticConsultationEnabled } from '@/config/contact';
 
 const columns = [
   { title: '专业服务', links: [
@@ -38,7 +39,7 @@ export default function Footer() {
           <p className="text-gray-400">© {new Date().getFullYear()} 长伴咨询. 保留所有权利。</p>
           <details className="max-w-xl text-gray-400">
             <summary className="cursor-pointer hover:text-white">咨询邮件说明</summary>
-            <p className="mt-3 leading-relaxed">网页填写内容用于生成当前页面的邮件草稿，由您在邮件应用中确认并发送。页面不会自动发送或保存咨询内容。外部邮件应用的处理方式以其实际设置为准。</p>
+            <p className="mt-3 leading-relaxed">{automaticConsultationEnabled ? '选择“提交咨询”时，表单内容交由 Formspree 接收、保存并发送通知至咨询邮箱。提交确认表示服务已接收，并不保证邮件已送达。选择“改用邮件草稿”时，内容仅用于当前页面生成草稿，由您在邮件应用中自行发送。请避免提供不必要的个人或客户敏感资料。' : '网页填写内容用于生成当前页面的邮件草稿，由您在邮件应用中确认并发送。页面不会自动发送或保存咨询内容。外部邮件应用的处理方式以其实际设置为准。'}</p>
           </details>
         </div>
       </div>

@@ -1,14 +1,25 @@
 import Icon from '@/components/ui/Icon';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { formspreeEndpoint } from '@/config/contact';
 import { createConsultationDraft, consultationEmail, serviceOptions, type ConsultationInput } from '@/lib/consultation';
+import { submitConsultation } from '@/lib/submitConsultation';
 
-const Contact = () => {
+interface ContactProps {
+  endpoint?: string;
+  submit?: typeof submitConsultation;
+}
+
+const Contact = ({ endpoint = formspreeEndpoint, submit = submitConsultation }: ContactProps) => {
+  const automaticConsultationEnabled = Boolean(endpoint);
   const [formData, setFormData] = useState<ConsultationInput>({
     name: '', company: '', contact: '', service: '', message: '',
   });
   const [draft, setDraft] = useState<ReturnType<typeof createConsultationDraft> | null>(null);
   const [error, setError] = useState('');
   const [copyNotice, setCopyNotice] = useState('');
+  const [submission, setSubmission] = useState<'idle' | 'sending' | 'success'>('idle');
+  const [honeypot, setHoneypot] = useState('');
+  const sending = useRef(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
@@ -16,16 +27,39 @@ const Contact = () => {
     setDraft(null);
     setError('');
     setCopyNotice('');
+    setSubmission('idle');
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
+  const generateDraft = () => {
     try {
       setDraft(createConsultationDraft(formData));
       setError('');
       setCopyNotice('');
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : '请检查填写内容。');
+    }
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!automaticConsultationEnabled) {
+      generateDraft();
+      return;
+    }
+    if (sending.current || submission === 'success') return;
+    sending.current = true;
+    setSubmission('sending');
+    setError('');
+    setDraft(null);
+    setCopyNotice('');
+    try {
+      await submit(endpoint, formData, { honeypot });
+      setSubmission('success');
+    } catch (cause) {
+      setSubmission('idle');
+      setError(cause instanceof Error ? cause.message : '未能确认提交，请使用邮件或电话联系我们。');
+    } finally {
+      sending.current = false;
     }
   };
 
@@ -53,11 +87,18 @@ const Contact = () => {
           {/* Contact Form */}
           <div className="bg-white p-8 rounded-xl shadow-md"
           >
-            <h3 className="text-2xl font-semibold text-gray-900 mb-3">准备咨询邮件</h3>
+            <h3 className="text-2xl font-semibold text-gray-900 mb-3">{automaticConsultationEnabled ? '提交咨询需求' : '准备咨询邮件'}</h3>
             <p id="consultation-help" className="text-sm text-gray-600 mb-6 leading-relaxed">
-              填写后可生成邮件草稿，您需要在邮件应用中确认并发送。如未设置邮件应用，可复制草稿，发送至 {consultationEmail}，或直接拨打下方咨询电话。
+              {automaticConsultationEnabled
+                ? '填写后点击提交，我们将通过您留下的联系方式沟通。也可以选择邮件草稿，自行通过邮件发送。'
+                : `填写后可生成邮件草稿，您需要在邮件应用中确认并发送。如未设置邮件应用，可复制草稿，发送至 ${consultationEmail}，或直接拨打下方咨询电话。`}
             </p>
-            <form onSubmit={handleSubmit} aria-describedby="consultation-help" className="space-y-6">
+            <form onSubmit={handleSubmit} aria-describedby="consultation-help consultation-privacy" aria-busy={submission === 'sending'} className="space-y-6">
+              <fieldset disabled={submission === 'sending'} className="space-y-6">
+              {automaticConsultationEnabled && <div hidden aria-hidden="true">
+                <label htmlFor="consultation-website">请保持此项为空</label>
+                <input id="consultation-website" name="_gotcha" type="text" tabIndex={-1} autoComplete="off" value={honeypot} onChange={event => setHoneypot(event.target.value)} />
+              </div>}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">姓名（必填）</label>
@@ -92,11 +133,15 @@ const Contact = () => {
                   placeholder="例如：希望改善绩效目标设定和考核流程。" value={formData.message} onChange={handleChange} required
                   className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
               </div>
+              </fieldset>
               {error && <p role="alert" className="text-sm text-red-700">{error}</p>}
-              <button type="submit" className="w-full bg-blue-900 text-white px-6 py-3 rounded-md text-sm font-medium hover:bg-blue-800 transition-colors shadow-lg">
-                生成咨询邮件
+              {submission === 'sending' && <p role="status" className="text-sm text-blue-900">正在提交，请稍候…</p>}
+              {submission === 'success' && <p role="status" className="rounded-lg bg-green-50 border border-green-200 p-4 text-sm text-green-900">咨询已提交。我们将通过您留下的联系方式沟通。修改内容后可提交新的咨询。</p>}
+              <button type="submit" disabled={submission === 'sending' || submission === 'success'} className="w-full bg-blue-900 text-white px-6 py-3 rounded-md text-sm font-medium hover:bg-blue-800 transition-colors shadow-lg disabled:opacity-60 disabled:cursor-not-allowed">
+                {automaticConsultationEnabled ? (submission === 'sending' ? '正在提交…' : submission === 'success' ? '已提交' : '提交咨询') : '生成咨询邮件'}
               </button>
-              <p className="text-xs text-gray-500 leading-relaxed">这些内容仅用于当前页面生成草稿。请在发送前检查内容，并避免填写员工身份证号等不必要的敏感信息。</p>
+              {automaticConsultationEnabled && submission !== 'success' && <button type="button" onClick={generateDraft} disabled={submission === 'sending'} className="w-full border border-blue-900 text-blue-900 px-6 py-3 rounded-md text-sm font-medium hover:bg-blue-50 disabled:opacity-60 disabled:cursor-not-allowed">改用邮件草稿</button>}
+              <p id="consultation-privacy" className="text-xs text-gray-500 leading-relaxed">{automaticConsultationEnabled ? '点击“提交咨询”会将姓名、公司、联系方式和咨询内容交由 Formspree 接收、保存并用于发送咨询通知。' : '这些内容仅用于当前页面生成草稿。'}请避免填写员工身份证号、个人薪酬明细等不必要的敏感信息。</p>
             </form>
             {draft && (
               <div className="mt-6 rounded-lg border border-blue-200 bg-blue-50 p-4">
