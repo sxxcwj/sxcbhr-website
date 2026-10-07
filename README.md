@@ -2,7 +2,7 @@
 
 ## 当前 GitHub Pages 发布方式
 
-当前网站绑定域名为 `www.learnity.net.cn`，发布源为 `main` 分支的仓库根目录。完整 React / Vite 前端源码现位于 `website-src/`。根目录仍保存当前线上预构建文件；优化版在独立分支中准备，尚未发布。
+当前网站绑定域名为 `www.learnity.net.cn`，发布源为 `main` 分支的仓库根目录。完整 React / Vite 前端源码现位于 `website-src/`。根目录仍保存当前线上预构建文件；根目录的静态产物由该源码构建生成，GitHub Pages 直接发布这些文件。
 
 - 根目录 `index.html` 必须使用构建后的首页，不能引用 `/src/main.tsx`。
 - JS 和 CSS 必须保留在 `assets/` 子目录；首页使用相对资源路径。
