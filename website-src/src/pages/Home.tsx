@@ -7,6 +7,7 @@ import Insights from '@/components/Insights';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import FAQ from '@/components/FAQ';
+import CaseStudies from '@/components/CaseStudies';
 import { useEffect } from 'react';
 
 export default function Home() {
@@ -30,6 +31,7 @@ export default function Home() {
       <main id="main-content">
         <Hero />
         <Services />
+        <CaseStudies />
         <About />
         <Team />
         <Insights />

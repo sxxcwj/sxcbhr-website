@@ -2,9 +2,11 @@ import logo from '@/assets/logo-light.webp';
 import Icon from '@/components/ui/Icon';
 import { useState, useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
+import { consultingCases, caseNavigationLabel } from '@/data/consultingCases';
 
 const navigation = [
   { href: '#services', label: '服务' },
+  ...(consultingCases.length ? [{ href: '#cases', label: caseNavigationLabel }] : []),
   { href: '#about', label: '关于我们' },
   { href: '#team', label: '团队' },
   { href: '#insights', label: '咨询指南' },
@@ -52,7 +54,7 @@ const Navbar = () => {
               className="h-10 w-auto"
             />
           </a>
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-8">
             {navigation.map(item => (
               <a key={item.href} href={item.href} className="text-sm font-medium hover:text-blue-700 transition-colors">{item.label}</a>
             ))}
@@ -65,14 +67,14 @@ const Navbar = () => {
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-navigation"
             onClick={() => setIsMobileMenuOpen(open => !open)}
-            className="md:hidden text-gray-700 hover:text-blue-900 p-3 -mr-3"
+            className="lg:hidden text-gray-700 hover:text-blue-900 p-3 -mr-3"
           >
             <Icon name={isMobileMenuOpen ? 'close' : 'menu'} className="h-6 w-6" />
           </button>
         </div>
       </div>
       {isMobileMenuOpen && (
-        <div id="mobile-navigation" className="md:hidden bg-white shadow-lg absolute top-full left-0 right-0 py-4 px-4 flex flex-col space-y-2">
+        <div id="mobile-navigation" className="lg:hidden bg-white shadow-lg absolute top-full left-0 right-0 py-4 px-4 flex flex-col space-y-2">
           {navigation.map(item => (
             <a key={item.href} href={item.href} onClick={closeMenu} className="text-sm font-medium py-3 hover:text-blue-700 transition-colors">{item.label}</a>
           ))}

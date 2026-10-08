@@ -1,6 +1,7 @@
 import logo from '@/assets/logo-dark.webp';
 import { consultationEmail } from '@/lib/consultation';
 import { automaticConsultationEnabled } from '@/config/contact';
+import { consultingCases, caseNavigationLabel } from '@/data/consultingCases';
 
 const columns = [
   { title: '专业服务', links: [
@@ -8,7 +9,8 @@ const columns = [
     ['人才招聘与保留', '#services'], ['绩效管理体系', '#services'], ['企业文化建设', '#services'],
   ] },
   { title: '了解长伴', links: [
-    ['关于我们', '#about'], ['专家团队', '#team'], ['合作伙伴', '#partners'], ['联系我们', '#contact'],
+    ['关于我们', '#about'], ['专家团队', '#team'], ['合作伙伴', '#partners'],
+    ...(consultingCases.length ? [[caseNavigationLabel, '#cases']] : []), ['联系我们', '#contact'],
   ] },
   { title: '咨询指南', links: [
     ['组织效能', '#guide-organization'], ['绩效管理', '#guide-performance'], ['人才发展', '#guide-talent'], ['常见问题', '#faq'],
